@@ -5,6 +5,11 @@ var logger = require('morgan');
 
 require('dotenv').config()
 
+// 1. Setup Environment
+// 2. Setup Mongo
+// 3. Setup Cors
+// 4. Setup Routes
+// 5. Setup Passport
 
 const mongoose = require("mongoose");
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -20,7 +25,6 @@ var app = express();
 
 app.use(cors());
 app.use(passport.initialize());
-
 
 mongoose
   .connect(MONGODB_URI, {
