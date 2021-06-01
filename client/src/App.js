@@ -1,49 +1,39 @@
-import { useState } from 'react'
+import { useState } from "react";
 
-import FacebookLogin from 'react-facebook-login';
-import './App.css';
+import FacebookLogin from "react-facebook-login";
+import "./App.css";
 
 const FB_APP_ID = process.env.REACT_APP_FB_APP_ID;
 
 function App() {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
   const loginWithFacebook = async (user) => {
     try {
-
-    console.log({user})
-
-    const access_token = user.accessToken;
-
-    const response = await fetch(
-      "http://localhost:5000/api/auth/login/facebook",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const access_token = user.accessToken;
+      const response = await fetch(
+        "http://localhost:5000/api/auth/login/facebook",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          redirect: "follow",
+          referrerPolicy: "no-referrer",
+          body: JSON.stringify({
+            user,
+            access_token,
+          }),
         },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer,
-        body: JSON.stringify({
-          user,
-          access_token,
-        }),
-        // body: {
-        //   user,
-        //   access_token,
-        // },
-      },
-    );
-    const json = await response.json()
-    console.log({ user: json });
+      );
+      const json = await response.json();
 
-    setUser(json.user)
-
+      setUser(json.user);
     } catch (error) {
-      console.log('Error', error)
+      console.log("Error", error);
     }
-  }
+  };
 
-  if (user?.name) return <h1>Hello {user.name}</h1>
+  if (user?.name) return <h1>Hello {user.name}</h1>;
 
   return (
     <div className="App">
